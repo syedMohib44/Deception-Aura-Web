@@ -1,5 +1,7 @@
 import Businesses from "../../entity/Businesses"
+import { IGetOptionsWithPaginate } from "../../interface/IGetOptions";
 import { APIError } from "../../utils/error";
+
 
 export const showBusinessById = async (_id: string) => {
     const business = await Businesses.findOne({ _id });
@@ -10,11 +12,31 @@ export const showBusinessById = async (_id: string) => {
     return business;
 }
 
-export const showAllBusinesses = async () => {
-    const businesses = await Businesses.find();
+export const showAllBusinesses = async (options: IGetOptionsWithPaginate) => {
+    const query = {
+    };
 
-    if (!businesses)
-        throw new APIError(404, { message: 'There is no business at the moment' });
-    
+    if (options.q) {
+        const usersCount = await Businesses.countDocuments({ $text: { $search: options.q } });
+        if (usersCount !== 0) { // non-partial matched
+            Object.assign(query, {
+                $text: {
+                    $search: options.q,
+                    $caseSensitive: false
+                }
+            });
+        } else { // check partial matched
+            const re = new RegExp(options.q, 'i');
+
+            Object.assign(query, {
+                $or: [
+                    { firstName: re },
+                    { lastName: re },
+                    { email: re },
+                ]
+            });
+        }
+    }
+    const businesses = await Businesses.paginate(query, options);
     return businesses;
 }

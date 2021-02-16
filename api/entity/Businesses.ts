@@ -1,5 +1,6 @@
 import { Schema, Document, model, Model, PaginateModel } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import { Address, IAddress } from './Address';
 
 export interface IBusinesses extends Document {
@@ -29,6 +30,14 @@ export interface IBusinessHours {
     from: string;
     to: string;
 }
+
+export interface IBusinessesModel extends Model<IBusinesses>, PaginateModel<IBusinesses> {
+    /**
+     * type support for mongoose aggregate paginate
+     */
+    aggregatePaginate: (query: any, options: any) => any;
+}
+
 
 const BusinessesHoursSchema = new Schema({
     day: { type: String, required: true },
@@ -60,8 +69,7 @@ BusinessesSchema.index({
     'address.street': 'text',
     'address.zipcode': 'text',
     type: 1
-})
-
+});
 BusinessesSchema.plugin(paginate);
 
-export default model<IBusinesses>('Businesses', BusinessesSchema);
+export default model<IBusinesses, IBusinessesModel>('Businesses', BusinessesSchema);

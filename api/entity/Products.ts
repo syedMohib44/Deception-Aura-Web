@@ -1,5 +1,6 @@
 import { Types, Document, model, Schema } from 'mongoose';
 import { IBusinesses } from './Businesses';
+const paginate = require('mongoose-paginate-v2');
 
 
 export interface IProducts extends Document {
@@ -8,7 +9,7 @@ export interface IProducts extends Document {
     /**
      * Rating of product with comments/reviews.
      */
-    ratings?: {
+    ratings: {
         rating: string,
         comment?: string
     }[];
@@ -16,8 +17,8 @@ export interface IProducts extends Document {
 }
 
 const ratingSchema = new Schema({
-    rating: {type: String, required: true},
-    comment: {type: String, required: false}
+    rating: { type: String, required: true },
+    comment: { type: String, required: false }
 })
 
 const productSchema = new Schema({
@@ -25,6 +26,7 @@ const productSchema = new Schema({
     price: { type: String, required: true },
     business: { type: Types.ObjectId, ref: 'Businesses' },
     ratings: [ratingSchema]
-})
+});
+productSchema.plugin(paginate);
 
 export default model<IProducts>('Products', productSchema);

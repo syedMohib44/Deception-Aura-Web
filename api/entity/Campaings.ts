@@ -1,4 +1,5 @@
 import { Types, Schema, Document, model } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 import { IProducts } from './Products';
 
 export interface ICampaings extends Document {
@@ -37,5 +38,7 @@ const campaingSchema = new Schema({
     isActive: { type: Boolean, default: false, required: true },
     file: [adFiles]
 }, { timestamps: true })
+
+campaingSchema.plugin(paginate);
 
 export default model<ICampaings>('Campaings', campaingSchema);
