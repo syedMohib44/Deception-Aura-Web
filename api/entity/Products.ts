@@ -8,7 +8,7 @@ export interface IProducts extends Document {
     /**
      * Rating of product with comments/reviews.
      */
-    ratings: {
+    ratings?: {
         rating: string,
         comment?: string
     }[];

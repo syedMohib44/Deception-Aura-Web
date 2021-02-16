@@ -47,19 +47,19 @@ export const generateQrCodes = async (products: any[]) => {
 
 export const generateSingleQrCode = async (adName: string, companyName: string, adId: string) => {
     const options: IOptions = {
-        text: adName,
+        text: companyName + '-' + adName,
         width: 180,
         height: 180,
         format: 'PNG'
     };
     const qrCode = new QRCode(options);
-
+    const path = 'public/qrCode-images/' + companyName + '/' + adId + '.png';
     qrCode.saveImage({
-        path: 'public/qrCode-images/' + companyName + '/' + adId + '.png'
+        path
     });
     const qrCodeAttachment = {
         filename: adName + '.png',
-        path: 'public/qrCode-images/' + companyName + '/' + adId + '.png',
+        path,
         cid: adName + '@' // same cid value as in the html img src
     };
     const attachments: Attachment = qrCodeAttachment;

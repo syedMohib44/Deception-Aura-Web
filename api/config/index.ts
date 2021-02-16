@@ -1,7 +1,7 @@
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 
-const result= config();
-if(result.error){
+const result = config();
+if (result.error) {
     throw result.error;
 }
 
@@ -9,7 +9,7 @@ const configuration = {
     mode: process.env.MODE as 'dev' | 'prod' | 'test',
     port: +(process.env.PORT as string),
     base_url: process.env.BASE_URL as string,
-    db:{
+    db: {
         uri: process.env.MONGO_URI as string,
         test_uri: process.env.MONGO_URI_TEST as string
     },
@@ -28,6 +28,11 @@ const configuration = {
         password: process.env.MAIL_PASSWORD as string,
         bcc: process.env.BCC as string,
     },
+    google: {
+        client_id: process.env.GOOGLE_CLIENT_ID as any,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET as any,
+        captcha_secret_key: process.env.GOOGLE_CAPTCHA_SECRET as string
+    }
 };
 
-export {configuration as config};
+export { configuration as config };
