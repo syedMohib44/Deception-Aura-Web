@@ -26,9 +26,7 @@ export const showProducts = async (businessId: string, options: IGetOptionsWithP
 
             Object.assign(query, {
                 $or: [
-                    { firstName: re },
-                    { lastName: re },
-                    { email: re },
+                    { name: re }
                 ]
             });
         }

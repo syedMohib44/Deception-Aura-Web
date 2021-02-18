@@ -11,21 +11,12 @@ import { generateRandomString } from '../../utils/commonHelper';
 import { sendMail } from '../../libs/mail/mail';
 import Businesses from '../../entity/Businesses';
 
-interface OwnerSignup {
-    firstName: string;
-    lastName: string;
-    username: string;
-    businessName: string;
-}
-
-export const insertUserAsOwner = async (owner: OwnerSignup) => {
-
-    const alreadyUser = await Users.findOne({ username: owner.username });
-    if (alreadyUser)
-        throw new APIError(400, { message: 'User already exist.' });
+export const insertUserAsOwner = async (addOwnerDto: AddOwnerDto) => {
+    await ownerSignupValidation(addOwnerDto);
+    
     // save business
     const business = new Business();
-    business.name = owner.businessName;
+    business.name = addOwnerDto.businessName;
     const savedBusiness = await business.save();
 
     // save user
@@ -35,9 +26,9 @@ export const insertUserAsOwner = async (owner: OwnerSignup) => {
     }
     const hashedPassword = await bcrypt.hash(tempPassword, bcrypt.genSaltSync(10));
     const user = new Users();
-    user.firstName = owner.firstName;
-    user.lastName = owner.lastName;
-    user.username = owner.username;
+    user.firstName = addOwnerDto.firstName;
+    user.lastName = addOwnerDto.lastName;
+    user.username = addOwnerDto.username;
     user.password = hashedPassword;
     user.typeOfUser = 'owner';
     user.business = business;
@@ -75,35 +66,6 @@ export const businessNameExists = async (businessName: string): Promise<boolean>
     return dbBusinessName ? true : false;
 };
 
-export const insertDemoUserAsOwner = async (
-    {
-        owner
-    }: { owner: OwnerSignup }
-) => {
-    // save business
-
-    const business = new Business();
-    business.name = owner.businessName;
-    const savedBusiness = await business.save();
-
-    // save user
-    const tempPassword = generateRandomString(8);
-    if (config.mode === 'dev') {
-        console.log('Password is', tempPassword);
-    }
-    const hashedPassword = await bcrypt.hash(tempPassword, bcrypt.genSaltSync(10));
-    const user = new Users();
-    user.firstName = owner.firstName;
-    user.lastName = owner.lastName;
-    user.username = owner.username;
-    user.password = hashedPassword;
-    user.lastLogin = moment.utc().format();
-    user.typeOfUser = 'owner';
-    const savedUser = await user.save();
-
-    return { tempPassword, business: savedBusiness, user: savedUser };
-};
-
 export const ownerSchema = {
     firstName: Joi.string()
         .required(),
@@ -113,11 +75,7 @@ export const ownerSchema = {
         .email()
         .required(),
     businessName: Joi.string()
-        .required(),
-    pricingPlan: Joi.string()
-        .required(),
-    modules: Joi.array()
-        .items(Joi.string())
+        .required()
 };
 
 export const ownerSignupValidation = async (value: AddOwnerDto) => {
@@ -143,19 +101,7 @@ export const ownerSignupValidationWithCard = async (value: AddOwnerDto) => {
                 .required(),
             security_code: Joi.string()
                 .required()
-        },
-        promocode: Joi.object({
-            code: Joi.string()
-                .required(),
-            setupFee: Joi.number()
-                .required(),
-            monthlyPrice: Joi.number()
-                .required(),
-        }),
-        productsPurchased: Joi.array().items(
-            Joi.string()
-                .required()
-        )
+        }
     });
 
     const { error } = validate(schema, value);

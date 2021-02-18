@@ -31,9 +31,7 @@ export const showCamapings = async (productId: string, options: IGetOptionsWithP
 
             Object.assign(query, {
                 $or: [
-                    { firstName: re },
-                    { lastName: re },
-                    { email: re },
+                    { name: re }
                 ]
             });
         }
