@@ -1,9 +1,13 @@
+import { ShowRatingOptionsPaginate } from "../../controllers/rating.controller";
 import Ratings from "../../entity/Ratings"
 import { IGetOptionsWithPaginate } from "../../interface/IGetOptions";
 
-export const showRatings = async (productId: string, options: IGetOptionsWithPaginate) => {
+export const showRatings = async (options: ShowRatingOptionsPaginate) => {
     const query = {
-        product: productId
+    }
+
+    if (options.productId) {
+        Object.assign(query, { product: options.productId })
     }
 
     if (options.q) {
@@ -25,6 +29,6 @@ export const showRatings = async (productId: string, options: IGetOptionsWithPag
             });
         }
     }
-    const ratings = await Ratings.paginate({ prodcut: productId });
+    const ratings = await Ratings.paginate(query, options);
     return ratings;
 }

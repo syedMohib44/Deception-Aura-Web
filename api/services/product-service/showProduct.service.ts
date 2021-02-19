@@ -1,16 +1,16 @@
+import { ShowProductOptionPaginate } from "../../controllers/product.controller";
 import Products from "../../entity/Products"
 import { IGetOptionsWithPaginate } from "../../interface/IGetOptions";
 import { APIError } from "../../utils/error";
 
 
 
-export const showProducts = async (businessId: string, options: IGetOptionsWithPaginate) => {
-
-    //const products = await Products.find({ business: businessId });
-
+export const showProducts = async (options: ShowProductOptionPaginate) => {
     const query = {
-        business: businessId
     };
+
+    if (options.businessId)
+        Object.assign(query, { business: options.businessId });
 
     if (options.q) {
         const usersCount = await Products.countDocuments({ $text: { $search: options.q } });
@@ -32,9 +32,6 @@ export const showProducts = async (businessId: string, options: IGetOptionsWithP
         }
     }
     const products = await Products.paginate(query, options);
-    // if (!products.docs)
-    //     throw new APIError(404, { message: 'No product found for the business' });
-
     return products;
 }
 

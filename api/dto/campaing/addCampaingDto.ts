@@ -5,5 +5,7 @@ export interface AddCampaingDto {
     qrCode: string;
     product: IProducts['_id'];
     isActive: boolean;
-    files: Express.Multer.File[];
+    files: {
+        [field: string]: Express.Multer.File[];
+    }
 }

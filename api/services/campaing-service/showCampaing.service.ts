@@ -1,3 +1,4 @@
+import { ShowCamapingOptionPaginate } from "../../controllers/campaing.controller";
 import Campaings from "../../entity/Campaings"
 import { IGetOptionsWithPaginate } from "../../interface/IGetOptions";
 import { APIError } from "../../utils/error";
@@ -10,12 +11,13 @@ export const showCampaingById = async (_id: string) => {
     return campaing;
 }
 
-export const showCamapings = async (productId: string, options: IGetOptionsWithPaginate) => {
+export const showCamapings = async (options: ShowCamapingOptionPaginate) => {
     //const campaings = await Campaings.find({ product: productId });
-    
+
     const query = {
-        product: productId
     };
+    if (options.productId)
+        Object.assign(query, { product: options.productId });
 
     if (options.q) {
         const usersCount = await Campaings.countDocuments({ $text: { $search: options.q } });
@@ -37,7 +39,7 @@ export const showCamapings = async (productId: string, options: IGetOptionsWithP
         }
     }
 
-    const campaings = await Campaings.paginate(query, options); 
+    const campaings = await Campaings.paginate(query, options);
     // if (!campaings)
     //     throw new APIError(404, { message: "No campaing found for this product" });
     return campaings;
