@@ -4,6 +4,7 @@ import { IGetOptionsWithPaginate } from '../interface/IGetOptions';
 import { IUserRequest } from '../interface/IUserRequest';
 import { insertCampaing } from '../services/campaing-service/insertCampaing.service';
 import { showCamapings, showCampaingById } from '../services/campaing-service/showCampaing.service';
+import { updateCampaing } from '../services/campaing-service/updateCampaing.service';
 
 export const postCampaing = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
@@ -18,7 +19,7 @@ export interface ShowCamapingOptionPaginate extends IGetOptionsWithPaginate {
     productId?: IProducts['_id'];
 }
 
-export const getCampaings = async (req: Request, res: Response, next: NextFunction) => {
+export const getCampaings = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
         const options: ShowCamapingOptionPaginate = {
             select: req.query.select,
@@ -40,6 +41,16 @@ export const getCamapingById = async (req: Request, res: Response, next: NextFun
     try {
         const result = showCampaingById(req.params.id);
         res.status(200).json({ status: 'success', data: result });
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+export const putCamaping = async (req: IUserRequest, res: Response, next: NextFunction) => {
+    try {
+        await updateCampaing(req.body);
+        res.status(200).json({ status: 'success', data: 'Camapaing updated successfylly' });
     } catch (err) {
         next(err);
     }

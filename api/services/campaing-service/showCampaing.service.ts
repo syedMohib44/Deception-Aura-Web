@@ -44,4 +44,3 @@ export const showCamapings = async (options: ShowCamapingOptionPaginate) => {
     //     throw new APIError(404, { message: "No campaing found for this product" });
     return campaings;
 }
-

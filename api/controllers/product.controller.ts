@@ -4,6 +4,7 @@ import { IUserRequest } from '../interface/IUserRequest';
 import { IMailOptions } from '../libs/mail/mail';
 import { insertProduct } from '../services/product-service/insertProduct.service';
 import { showProducts, showProductsById } from '../services/product-service/showProduct.service';
+import { updateProduct } from '../services/product-service/updateProduct.service';
 
 export const postProduct = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
@@ -42,6 +43,15 @@ export const getProductById = async (req: IUserRequest, res: Response, next: Nex
     try {
         const result = await showProductsById(req.user.business._id, req.params.id);
         res.status(200).json({ status: 'success', data: result });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const putProduct = async (req: IUserRequest, res: Response, next: NextFunction) => {
+    try {
+        await updateProduct(req.body);
+        res.status(200).json({ status: 'success', data: 'Prodcut updated successfully' });
     } catch (err) {
         next(err);
     }

@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { IBusinesses } from './Businesses';
 
-export const typeOfUsers = ['superAdmin', 'owner'] as const;
+export const typeOfUsers = ['owner'] as const;
 export type typeOfUser = typeof typeOfUsers[number];
 
 export interface IUsers extends Document {

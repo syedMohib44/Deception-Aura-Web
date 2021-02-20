@@ -18,9 +18,9 @@ const configuration = {
         owner_url: process.env.OWNER_URL as string,
         ecommerce_url: process.env.ECOMMERCE_URL as string,
     },
-    jwt_secret: process.env.JWT_SECRET,
+    jwt_secret: process.env.JWT_SECRET as string,
     jwt_life: process.env.JWT_LIFE as string,
-    refresh_jwt_secret: process.env.REFRESH_JWT_SECRET,
+    refresh_jwt_secret: process.env.REFRESH_JWT_SECRET as string,
     refresh_jwt_life: process.env.REFRESH_JWT_LIFE,
     mail: {
         host: process.env.MAIL_HOST as string,

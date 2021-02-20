@@ -1,6 +1,6 @@
 import { config } from '../../config';
 import { AddCampaingDto } from '../../dto/campaing/addCampaingDto';
-import Campaings from '../../entity/Campaings';
+import Campaings, { ICampaings } from '../../entity/Campaings';
 import { nanoid } from 'nanoid';
 import { outputFile } from 'fs-extra';
 import Products from '../../entity/Products';
@@ -10,6 +10,10 @@ import { APIError } from '../../utils/error';
 import { sendMail } from '../../libs/mail/mail';
 
 export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
+
+    if (campaingExists(addCampaingDto))
+        throw new APIError(400, { message: 'Camaping already exists' });
+
     const allowedTypes = [
         'models',
         'textures',
@@ -75,4 +79,11 @@ export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
         subject: 'Success: Documents Uploaded to GHSure Inc',
         attachments: [attachment]
     }).catch(console.error);
+}
+
+
+
+const campaingExists = async ({ name, product }: AddCampaingDto) => {
+    const campaing = await Campaings.findOne({ name, product });
+    return campaing;
 }
