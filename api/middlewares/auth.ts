@@ -9,6 +9,7 @@ export const auth = () => (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const superadminAuth = () => (req: Request, res: Response, next: NextFunction) => {
+     //Checks if superadmin is going to signup or login on already loggedin if not othe the routes are there then its a false route
     if (isSuperadminPathAllowed(req.originalUrl)) {
         return next();
     }
