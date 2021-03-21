@@ -8,6 +8,7 @@ import cors from 'cors';
 import { config } from '../config';
 //import '../middlewares/OAuth';
 import '../middlewares/auth';
+import '../middlewares/jwt';
 import './mongoosePaginate';
 import { APIErrorHandler, badDataErrorhandler, defaultErrorHandler, mongooseErrorHandler, multerErrorHandler, routeNotFoundHandler } from '../middlewares/handleError';
 import { apiRoutes } from '../routes';

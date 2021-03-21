@@ -5,9 +5,9 @@ import { userRequestHandler } from '../../middlewares/userRequestHandler';
 const router = Router();
 
 router.get('/', getProducts);
-router.get('/:id', userRequestHandler(getProductById));
 router.post('/', userRequestHandler(postProduct));
 router.put('/', userRequestHandler(putProduct));
+router.get('/:id', userRequestHandler(getProductById));
 
 export {
     router as productRoutes

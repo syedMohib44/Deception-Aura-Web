@@ -28,7 +28,7 @@ export const getCampaings = async (req: IUserRequest, res: Response, next: NextF
             sort: req.query.sort,
             search: req.query,
             q: req.query.q as string,
-            productId: req.query.businessId as string
+            productId: req.query.productId as string
         }
         const result = await showCamapings(options)
         res.status(200).json({ status: 'success', data: result })

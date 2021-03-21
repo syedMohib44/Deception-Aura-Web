@@ -8,9 +8,9 @@ import { superadminRoutes } from './superadmin';
 
 const router = Router();
 
-router.use('/superadmin', superadminAuth(), isSuperadmin, superadminRoutes);
-router.use('/auth', authRoutes);
 router.use('/user', auth(), userRoutes);
+router.use('/auth', authRoutes);
+router.use('/superadmin', superadminAuth(), isSuperadmin, superadminRoutes);
 
 export {
     router as apiRoutes

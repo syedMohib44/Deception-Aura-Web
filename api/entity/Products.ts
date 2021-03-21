@@ -22,7 +22,7 @@ const ratingSchema = new Schema({
 })
 
 const productSchema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     price: { type: String, required: true },
     business: { type: Types.ObjectId, ref: 'Businesses' },
     ratings: [ratingSchema]

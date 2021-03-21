@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { AddProductDto } from '../dto/product/addProductDto';
 import { IGetOptionsWithPaginate } from '../interface/IGetOptions';
 import { IUserRequest } from '../interface/IUserRequest';
 import { IMailOptions } from '../libs/mail/mail';
@@ -8,7 +9,12 @@ import { updateProduct } from '../services/product-service/updateProduct.service
 
 export const postProduct = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
-        await insertProduct(req.body);
+        const product: AddProductDto = {
+            name: req.body.name,
+            business: req.user.business._id,
+            price: req.body.price
+        }
+        await insertProduct(product);
         res.sendStatus(201);
     } catch (err) {
         next(err);
@@ -23,8 +29,8 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
     try {
         const options: ShowProductOptionPaginate = {
             select: req.query.select,
-            page: +!!req.query.page,
-            limit: +!!req.query.limit || 10,
+            page: req.query.page ? +req.query.page : 1,
+            limit: req.query.limit ? +req.query.limit : 10,
             sort: req.query.sort,
             q: req.query.q as string,
             businessId: req.query.businessId as string

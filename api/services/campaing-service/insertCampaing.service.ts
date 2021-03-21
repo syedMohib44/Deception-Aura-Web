@@ -11,7 +11,7 @@ import { sendMail } from '../../libs/mail/mail';
 
 export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
 
-    if (campaingExists(addCampaingDto))
+    if (!campaingExists(addCampaingDto))
         throw new APIError(400, { message: 'Camaping already exists' });
 
     const allowedTypes = [

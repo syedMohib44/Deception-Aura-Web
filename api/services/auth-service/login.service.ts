@@ -17,6 +17,10 @@ export const authenticateUser = async (addAuthenticationDto: AddAuthenticationDt
     return token;
 };
 
+export const logoutUser = async (userId: string) => {
+    await Users.updateOne({ _id: userId }, { $unset: { refreshToken: 1 } });
+};
+
 export const refreshToken = async (oldToken: string, addAuthenticationDto: AddAuthenticationDto) => {
 
     if (oldToken) {

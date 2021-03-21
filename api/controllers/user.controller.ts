@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { authenticateUser, refreshToken } from '../services/auth-service/login.service';
+import { authenticateUser, logoutUser, refreshToken } from '../services/auth-service/login.service';
 import { AddAuthenticationDto } from '../dto/auth/authenticationDto';
 //import { forgotEmail } from '../services/auth-service/forgotEmail.service';
 //import { forgotPassword } from '../services/auth-service/forgotPassword.service';
@@ -16,7 +16,7 @@ import { forgotPassword } from '../services/auth-service/forgotPassword.service'
 
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     const addAuthenticationDto: AddAuthenticationDto = {
-        username: req.body.username.toLowerCase(),
+        username: req.body.username,
         password: req.body.password
     };
 
@@ -30,6 +30,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     }
 };
 
+export const logout = async (req: IUserRequest, res: Response) => {
+    await logoutUser(req.user.userId);
+    res.sendStatus(204);
+};
 // export const postForgotEmail = async (req: Request, res: Response, next: NextFunction) => {
 //     try {
 //         await forgotEmail({

@@ -3,6 +3,7 @@ import Products from "../../entity/Products";
 import { APIError } from "../../utils/error";
 
 export const insertProduct = async (addProductDto: AddProductDto) => {
+    //TODO: Need to put validation for unique product name can be added.
     if (!addProductDto)
         throw new APIError(400, { message: 'Mendatory fields are empty' });
     
