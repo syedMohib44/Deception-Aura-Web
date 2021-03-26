@@ -34,7 +34,6 @@ export const refreshToken = async (oldToken: string, addAuthenticationDto: AddAu
 async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
     const user = await Users
         .findOne({ username: addAuthenticationDto.username })
-        //.lean()
         .populate({
             path: 'business',
             populate: {
@@ -46,7 +45,6 @@ async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
     if (!user) throw new APIError(401, {
         message: 'Invalid Username or Password'
     });
-
     const isValid = await isValidate(addAuthenticationDto.password, user.password);
     if (!isValid) throw new APIError(401, {
         message: 'Invalid Username or Password'
@@ -58,12 +56,11 @@ async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
     }
     user.lastLogin = moment.utc().format();
     await user.save();  
-
     const payload: JWTPAYLOAD = {
         userId: user._id,
         typeOfUser: 'owner',
         username: user.username,
-        business: user.business // assuming one businness for now, more businesses can be added if required
+        business: user.business 
     };
     return payload;
 }

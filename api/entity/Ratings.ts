@@ -5,7 +5,7 @@ import { IProducts } from './Products';
 export interface IRatings extends Document {
     name: string | 'Anonymous';
     username?: string;
-    prodcut: IProducts['_id'];
+    product: IProducts['_id'];
     /**
      * 5 star or 4 star rating
      */
@@ -19,7 +19,7 @@ export interface IRatings extends Document {
 const RatingSchema = new Schema({
     name: { type: String, required: true, default: 'Anonymous' },
     username: { type: String, required: false },
-    prodcut: { type: Types.ObjectId, ref: 'Products', required: true },
+    product: { type: Types.ObjectId, ref: 'Products', required: true },
     star: { type: String, required: true, default: '0' },
     comment: { type: String, required: false }
 });
