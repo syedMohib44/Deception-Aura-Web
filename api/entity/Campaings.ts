@@ -3,6 +3,7 @@ import paginate from 'mongoose-paginate-v2';
 import { IProducts } from './Products';
 
 export interface ICampaings extends Document {
+    _id: any;
     name: string;
     /**
      * Path where campaing Qr-code is stored probable at server.

@@ -56,6 +56,8 @@ export const generateSingleQrCode = async (adName: string, companyName: string, 
     const path = 'public/qrCode-images/' + companyName + '/' + adId + '.png';
     qrCode.saveImage({
         path
+    }).then((data: any) => {
+        console.log("`q-premium1.png` has been Created!" + {...data});
     });
     const qrCodeAttachment = {
         filename: adName + '.png',

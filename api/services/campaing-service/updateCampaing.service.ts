@@ -1,5 +1,5 @@
 import { UpdateCampaingDto } from '../../dto/campaing/updateCampaingDto';
-import Campaings from '../../entity/Campaings';
+import Campaings, { ICampaings } from '../../entity/Campaings';
 import { nanoid } from 'nanoid';
 import { outputFile } from 'fs-extra';
 import { generateSingleQrCode } from '../../libs/qrCodeGenerator';
@@ -9,9 +9,12 @@ import path from 'path';
 import { sendMail } from '../../libs/mail/mail';
 
 export const updateCampaing = async (updateCampaingDto: UpdateCampaingDto) => {
-    const campaing = await Campaings.findOne({ _id: updateCampaingDto._id }).populate('product').lean();
+    const campaing = await Campaings.findOne({ _id: updateCampaingDto._id }).populate('product');
 
-    if (!campaing || !campaing.product)
+    if (!campaing)
+    throw new APIError(404, { message: 'Campaing of the product cannot be found' });
+
+    if (!campaing.product)
         throw new APIError(404, { message: 'Campaing of the product cannot be found' });
 
     if (campaing.name !== updateCampaingDto.name) {
@@ -25,9 +28,8 @@ export const updateCampaing = async (updateCampaingDto: UpdateCampaingDto) => {
             attachments: [attachment]
         }).catch(console.error);
     }
-
-    campaing.name = updateCampaingDto.name || campaing.name;
-    campaing.isActive = updateCampaingDto.isActive || campaing.isActive;
+    campaing.name = updateCampaingDto.name ?? campaing.name;
+    campaing.isActive = updateCampaingDto.isActive ?? campaing.isActive;
     campaing.product = updateCampaingDto.product;
 
     //Stores the file path in qrCode.
@@ -58,9 +60,10 @@ export const updateCampaing = async (updateCampaingDto: UpdateCampaingDto) => {
         await Promise.all(fileWritePromises);
         await Campaings.insertMany(campaing);
     }
-    sendMail({
-        to: config.mail.bcc[0],
-        bcc: config.mail.bcc,
-        subject: 'Success: Documents Uploaded to GHSure Inc',
-    }).catch(console.error);
+    await campaing.save();
+    // sendMail({
+    //     to: config.mail.bcc[0],
+    //     bcc: config.mail.bcc,
+    //     subject: ' ',
+    // }).catch(console.error);
 }

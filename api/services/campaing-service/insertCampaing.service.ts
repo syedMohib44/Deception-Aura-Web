@@ -73,12 +73,12 @@ export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
         await Promise.all(fileWritePromises);
         await Campaings.insertMany(campaing);
     }
-    sendMail({
-        to: config.mail.bcc[0],
-        bcc: config.mail.bcc,
-        subject: 'Success: Documents Uploaded to GHSure Inc',
-        attachments: [attachment]
-    }).catch(console.error);
+    // sendMail({
+    //     to: config.mail.bcc[0],
+    //     bcc: config.mail.bcc,
+    //     subject: 'Success: Documents Uploaded to GHSure Inc',
+    //     attachments: [attachment]
+    // }).catch(console.error);
 }
 
 

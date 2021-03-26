@@ -40,7 +40,5 @@ export const showCamapings = async (options: ShowCamapingOptionPaginate) => {
     }
 
     const campaings = await Campaings.paginate(query, options);
-    // if (!campaings)
-    //     throw new APIError(404, { message: "No campaing found for this product" });
     return campaings;
 }

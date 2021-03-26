@@ -39,7 +39,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
             options.pagination = +!!req.query.pagination === 1;
 
         const result = await showProducts(options);
-        res.status(200).json({ status: 'success', message: result });
+        res.status(200).json({ status: 'success', result });
     } catch (err) {
         next(err);
     }
@@ -48,7 +48,7 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
 export const getProductById = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
         const result = await showProductsById(req.user.business._id, req.params.id);
-        res.status(200).json({ status: 'success', data: result });
+        res.status(200).json({ status: 'success', result });
     } catch (err) {
         next(err);
     }
