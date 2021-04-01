@@ -45,9 +45,9 @@ export const sendMail = (mailOptions: IMailOptions) => {
 
     // attach logo
     const logoAttachment = {
-        filename: 'inzilo-logo.png',
-        path: 'public/images/logo/inzilo_logo.png',
-        cid: 'inzilologo@inzilo.com' // same cid value as in the html img src
+        filename: 'DA-logo.png',
+        path: 'public/images/logo/DA-logo.png',
+        cid: 'DAlogo@da.com' // same cid value as in the html img src
     };
 
     if (mailOptions.attachments) {

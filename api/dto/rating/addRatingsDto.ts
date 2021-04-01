@@ -10,7 +10,7 @@ export interface AddRatingsDto {
     /**
      * 5 star or 4 star rating
      */
-    stars: string;
+    stars: number;
     /**
      * Feedback with rating
      */

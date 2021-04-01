@@ -4,6 +4,7 @@ const paginate = require('mongoose-paginate-v2');
 
 
 export interface IProducts extends Document {
+    _id: any;
     name: string;
     price: string;
     /**

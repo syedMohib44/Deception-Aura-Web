@@ -9,21 +9,22 @@ export const insertRating = async (addRatingsDto: AddRatingsDto) => {
     if (!businessOwner)
         throw new APIError(404, { message: 'Business not found' });
 
+    console.log(addRatingsDto);
     const rating = new Ratings();
     rating.name = addRatingsDto.name;
     rating.username = addRatingsDto.username ?? addRatingsDto.username;
-    rating.stars = addRatingsDto.stars;
-    rating.prodcut = addRatingsDto.product;
+    rating.stars = +addRatingsDto.stars;
+    rating.product = addRatingsDto.product;
     rating.comment = addRatingsDto.comment ?? addRatingsDto.comment;
     await rating.save();
 
-    sendMail({
-        subject: `Feedback from ${rating.name}`,
-        to: businessOwner.username,
-        context: {
-            productName: addRatingsDto.productName,
-        }
-    });
+    // sendMail({
+    //     subject: `Feedback from ${rating.name}`,
+    //     to: businessOwner.username,
+    //     context: {
+    //         productName: addRatingsDto.productName,
+    //     }
+    // });
 
     if (rating.username) {
         sendMail({

@@ -30,10 +30,10 @@ router.post('/signup', async (req, res, next) => {
 
         sendMail({
             to: superadmin.email,
-            text: `Your superadmin credentials for Inzilo POS are \n
+            text: `Your superadmin credentials for \n
             Email: ${superadmin.email}\n
             Password: ${password}`,
-            subject: 'Superadmin credentials Inzilo POS'
+            subject: 'Superadmin credentials'
         }).catch(console.log);
 
         res.sendStatus(204);

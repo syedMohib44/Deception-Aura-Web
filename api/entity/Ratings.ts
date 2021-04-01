@@ -1,15 +1,16 @@
 import { Schema, Document, model, Types } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import { IProducts } from './Products';
 
 export interface IRatings extends Document {
     name: string | 'Anonymous';
     username?: string;
-    prodcut: IProducts['_id'];
+    product: IProducts['_id'];
     /**
      * 5 star or 4 star rating
      */
-    stars: string;
+    stars: number;
     /**
      * Feedback with rating
      */
@@ -19,11 +20,12 @@ export interface IRatings extends Document {
 const RatingSchema = new Schema({
     name: { type: String, required: true, default: 'Anonymous' },
     username: { type: String, required: false },
-    prodcut: { type: Types.ObjectId, ref: 'Products', required: true },
-    star: { type: String, required: true, default: '0' },
+    product: { type: Types.ObjectId, ref: 'Products', required: true },
+    stars: { type: Number, required: true, default: 0 },
     comment: { type: String, required: false }
 });
 
 RatingSchema.plugin(mongoosePaginate);
+RatingSchema.plugin(aggregatePaginate);
 
 export default model<IRatings>('Ratings', RatingSchema);

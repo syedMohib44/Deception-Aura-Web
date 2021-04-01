@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { IGetOptionsWithPaginate } from '../interface/IGetOptions';
 import { insertRating } from '../services/rating-service/insertRating.service';
-import { showRatings } from '../services/rating-service/showRatings.service';
+import { showCalculatedRating, showRatings } from '../services/rating-service/showRatings.service';
 
 export const postRating = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await insertRating(req.body);
-        res.sendStatus(201);
+        res.sendStatus(204);
     } catch (err) {
         next(err);
     }
@@ -32,6 +32,16 @@ export const getRatings = async (req: Request, res: Response, next: NextFunction
         }
         const result = await showRatings(options)
         res.status(200).json({ message: result });
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+export const getAvgRatings = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await showCalculatedRating(req.params.id)
+        res.status(200).json({ status: 'success', result });
     } catch (err) {
         next(err);
     }

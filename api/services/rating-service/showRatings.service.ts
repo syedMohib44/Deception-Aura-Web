@@ -1,6 +1,9 @@
+import { Types } from "mongoose";
 import { ShowRatingOptionsPaginate } from "../../controllers/rating.controller";
+import { IProducts } from "../../entity/Products";
 import Ratings from "../../entity/Ratings"
 import { IGetOptionsWithPaginate } from "../../interface/IGetOptions";
+import { APIError } from "../../utils/error";
 
 export const showRatings = async (options: ShowRatingOptionsPaginate) => {
     const query = {
@@ -31,4 +34,20 @@ export const showRatings = async (options: ShowRatingOptionsPaginate) => {
     }
     const ratings = await Ratings.paginate(query, options);
     return ratings;
+}
+
+
+export const showCalculatedRating = async (productId: IProducts['_id']) => {
+    console.log(productId);
+    const aggregate = [
+        { $match: { product: Types.ObjectId(productId) } },
+        {
+            $group: {
+                _id: { product: '$product' },
+                totalRatings: { $avg: '$stars' },
+                count: { $sum: 1 }
+            }
+        }];
+    const rating = await Ratings.aggregate(aggregate);
+    return rating[0];
 }
