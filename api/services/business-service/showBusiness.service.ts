@@ -40,3 +40,7 @@ export const showAllBusinesses = async (options: IGetOptionsWithPaginate) => {
     const businesses = await Businesses.paginate(query, options);
     return businesses;
 }
+
+
+export const de_ActivateBusiness = async (businessId: string, isActive: boolean) =>
+    await Businesses.findByIdAndUpdate({ _id: businessId }, { isActive });

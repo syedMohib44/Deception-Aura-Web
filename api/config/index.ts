@@ -18,6 +18,14 @@ const configuration = {
         owner_url: process.env.OWNER_URL as string,
         ecommerce_url: process.env.ECOMMERCE_URL as string,
     },
+     ssh: {
+        host: process.env.FILE_SERVER_HOST,
+        port: +(process.env.FILE_SERVER_PORT as string),
+        username: process.env.FILE_SERVER_USERNAME,
+        password: process.env.FILE_SERVER_PASSWORD,
+        root_file_path: process.env.FILE_SERVER_ROOT_FILE_PATH as string,
+        url: process.env.FILE_SERVER_URL as string
+    },
     jwt_secret: process.env.JWT_SECRET as string,
     jwt_life: process.env.JWT_LIFE as string,
     refresh_jwt_secret: process.env.REFRESH_JWT_SECRET as string,

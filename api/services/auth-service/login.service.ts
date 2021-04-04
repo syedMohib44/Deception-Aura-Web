@@ -6,6 +6,7 @@ import { AddAuthenticationDto } from '../../dto/auth/authenticationDto';
 import { JWTPAYLOAD } from '../../interface/JWTPayload';
 import { config } from '../../config';
 import moment from 'moment';
+import { appendImagePath } from '../../utils/image-append';
 
 export const authenticateUser = async (addAuthenticationDto: AddAuthenticationDto) => {
 
@@ -41,11 +42,7 @@ async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
         //.lean()
         .populate({
             path: 'business',
-            populate: {
-                path: 'modules.module',
-                select: 'name code -_id'
-            },
-            select: 'name modules isActive'
+            select: 'name isActive'
         });
     if (!user) throw new APIError(401, {
         message: 'Invalid Username or Password'
@@ -61,11 +58,11 @@ async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
         });
     }
     user.lastLogin = moment.utc().format();
-    await user.save();  
-
+    await user.save();
     const payload: JWTPAYLOAD = {
         userId: user._id,
         typeOfUser: 'owner',
+        profilePic: user.profilePic,
         username: user.username,
         business: user.business // assuming one businness for now, more businesses can be added if required
     };

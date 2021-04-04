@@ -10,10 +10,11 @@ import Business from '../../entity/Businesses';
 import { generateRandomString } from '../../utils/commonHelper';
 import { sendMail } from '../../libs/mail/mail';
 import Businesses from '../../entity/Businesses';
+import { FileOperation } from '../../libs/fileOperation';
 
 export const insertUserAsOwner = async (addOwnerDto: AddOwnerDto) => {
     await ownerSignupValidation(addOwnerDto);
-    
+
     // save business
     const business = new Business();
     business.name = addOwnerDto.businessName;
@@ -29,6 +30,11 @@ export const insertUserAsOwner = async (addOwnerDto: AddOwnerDto) => {
     user.firstName = addOwnerDto.firstName;
     user.lastName = addOwnerDto.lastName;
     user.username = addOwnerDto.username;
+    if (addOwnerDto.profilePic) {
+        const fileOP = new FileOperation();
+        user.profilePic = await fileOP.uploadFile(addOwnerDto.profilePic);
+    }
+
     user.password = hashedPassword;
     user.typeOfUser = 'owner';
     user.business = business;
@@ -75,7 +81,9 @@ export const ownerSchema = {
         .email()
         .required(),
     businessName: Joi.string()
-        .required()
+        .required(),
+    profilePic: Joi.object()
+        .optional()
 };
 
 export const ownerSignupValidation = async (value: AddOwnerDto) => {

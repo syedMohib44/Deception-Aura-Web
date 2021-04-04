@@ -15,7 +15,7 @@ export interface IUsers extends Document {
     phone: string;
     business: IBusinesses;
     lastLogin: string;
-    profilePic: string;
+    profilePic?: string;
     gravatar: (size: number) => string;
     fullName: string;
 }

@@ -9,8 +9,13 @@ import { config } from '../../config';
 import { JWTPAYLOAD } from '../../interface/JWTPayload';
 import moment from 'moment';
 import SuperAdmin from '../../entity/SuperAdmin';
+import { businessRoutes } from './business.route';
 
 const router = Router();
+
+
+router.use('/business', businessRoutes);
+
 
 router.post('/signup', async (req, res, next) => {
     try {
@@ -21,6 +26,7 @@ router.post('/signup', async (req, res, next) => {
         }
 
         const password = nanoid();
+        console.log('Password is: ' + password);
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const superadmin = new SuperAdmin();
@@ -45,7 +51,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
-        const superadmin = await SuperAdmin.findOne({ email: req.body.email });
+        const superadmin = await SuperAdmin.findOne({ email: req.body.username });
         if (!superadmin) {
             throw new APIError(401, { message: 'Invalid email or password' });
         }

@@ -2,6 +2,7 @@ export interface AddOwnerDto {
     firstName: string;
     lastName: string;
     username: string;
+    profilePic?: Express.Multer.File;
     businessName: string;
 }
 

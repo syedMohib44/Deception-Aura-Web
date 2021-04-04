@@ -14,13 +14,13 @@ import { forgotPassword } from '../services/auth-service/forgotPassword.service'
 //import { updateBlackListedSidebarMenus } from '../services/sidebar-service/updateBlackListedSidebarMenus.service';
 //import { showBlacklistedMenus } from '../services/sidebar-service/showBlacklistedMenus.service';
 
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-    const addAuthenticationDto: AddAuthenticationDto = {
-        username: req.body.username,
-        password: req.body.password
-    };
-
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => { 
     try {
+        const addAuthenticationDto: AddAuthenticationDto = {
+            username: req.body.username,
+            password: req.body.password
+        };
+        console.log(addAuthenticationDto);
         const token = await authenticateUser(addAuthenticationDto);
         res.status(200).json({
             data: { token }

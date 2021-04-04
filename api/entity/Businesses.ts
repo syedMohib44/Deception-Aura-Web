@@ -46,8 +46,8 @@ const BusinessesHoursSchema = new Schema({
 });
 
 const BusinessesSchema = new Schema({
-    name: { type: String, unique: true, functionfunctionrequired: true, trim: true },
-    isActive: { type: Boolean, default: true, required: false },
+    name: { type: String, unique: true, required: true }, //trim: true Will cause error if value is given in split " "
+    isActive: { type: Boolean, default: false, required: false },
     logo: { type: String, required: false },
     timezone: { type: String, required: false, trim: true },
     resizedLogos: [{

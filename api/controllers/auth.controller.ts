@@ -2,9 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { insertUserAsOwner } from '../services/auth-service/register.service';
 
 export const ownerRegister = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        console.log(req.body.businessName)
-        await insertUserAsOwner(req.body);
+    try {        
+        await insertUserAsOwner({...req.body, profilePic: req.file});
         res.status(201).json({message: 'registration successful'});
     } catch (err) {
         next(err);
