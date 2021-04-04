@@ -11,7 +11,7 @@
     "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts",
     "copy": "npm install && cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
     "build": "rm -rf dist && tsc && npm run copy && cd client && npm install && npm run build",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm install",
     "seed": "ts-node api/seeds",
     "test:clearCache": "node_modules/.bin/jest --clearCache && rm -rf ./dist",
     "test:all": "node_modules/.bin/jest --watchAll --runInBand --detectOpenHandles",
