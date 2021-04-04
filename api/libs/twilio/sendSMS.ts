@@ -4,9 +4,9 @@ import { MessageListInstanceCreateOptions, MessageInstance } from 'twilio/lib/re
 import { config } from '../../config';
 
 // TWILIO config
-const accountSid = config.twilio.account_sid;
-const authToken = config.twilio.auth_token;
-const fromNumber = config.twilio.phone;
+const accountSid = 'ACxxxxxxxxxxxxxxxxx';//config.twilio.account_sid;
+const authToken = 'xxxxxxxxxxxxxxxxx';//config.twilio.auth_token;
+const fromNumber = 'xxxxxxxxxxxxxxxxx';//config.twilio.phone;
 const client = twilio(accountSid, authToken);
 
 export interface ISMSOptions {
