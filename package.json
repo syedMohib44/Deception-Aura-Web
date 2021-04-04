@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">= 6.9.4",
+    "npm": ">= 4.4.0"
+  },
   "scripts": {
     "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts",
     "copy": "npm install && cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
