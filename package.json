@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts",
-    "copy": "cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
-    "build": "rm -rf dist && tsc && npm run copy",
+    "copy": "npm install && cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
+    "build": "rm -rf dist && tsc && npm run copy && cd client && npm run install && npm run build",
+    "heroku-postbuild": "npm run build",
     "seed": "ts-node api/seeds",
     "test:clearCache": "node_modules/.bin/jest --clearCache && rm -rf ./dist",
     "test:all": "node_modules/.bin/jest --watchAll --runInBand --detectOpenHandles",
