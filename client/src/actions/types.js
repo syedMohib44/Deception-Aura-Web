@@ -1,0 +1,20 @@
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+
+export const SET_MESSAGE = "SET_MESSAGE";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+export const POST_DATA_SUCCESS = "POST_DATA_SUCCESS";
+export const POST_DATA_FAIL = "POST_DATA_FAIL";
+
+export const GET_DATA_SUCCESS = "GET_DATA_SUCCESS";
+export const GET_DATA_FAIL = "GET_DATA_FAIL";
+
+export const PUT_DATA_SUCCESS = "PUT_DATA_SUCCESS";
+export const PUT_DATA_FAIL = "PUT_DATA_FAIL";
+
+export const DELETE_DATA_SUCCESS = "DELETE_DATA_SUCCESS";
+export const DELETE_DATA_FAIL = "DELETE_DATA_FAIL";
