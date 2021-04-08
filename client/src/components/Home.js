@@ -47,11 +47,11 @@ const Home = () => {
       }
     );
   }, [limit, page, userData.business._id]);
-
+  console.log(process.env);
   return (
     <div className="container">
       <header className="jumbotron">
-      <img src={userData.profilePic} alt="profils pic" />
+        <img src={require(`${process.env.REACT_APP_FILES}${userData.profilePic}`)} alt="" />
 
         {/* <img src={require('./public/qrCode-images/Developers void/605cfbadd83b1c2b1078f09a.png')} /> */}
 
@@ -103,6 +103,7 @@ const Home = () => {
           <Product
             show={productPage}
             onHide={() => setProductPage(false)}
+            businessName={userData.business.name}
           />
           : null)
       ] : null}

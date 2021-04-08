@@ -12,7 +12,9 @@ export const postProduct = async (req: IUserRequest, res: Response, next: NextFu
         const product: AddProductDto = {
             name: req.body.name,
             business: req.user.business._id,
-            price: req.body.price
+            businessName: req.body.business_ame,
+            price: req.body.price,
+            productPic: req.file
         }
         await insertProduct(product);
         res.sendStatus(201);

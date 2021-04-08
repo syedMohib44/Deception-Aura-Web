@@ -2,13 +2,54 @@ import SFTPClient from 'ssh2-sftp-client';
 import moment from 'moment';
 import { nanoid } from 'nanoid';
 import path from 'path';
-
+import multer from 'multer';
+import fs from 'fs';
 import { config } from '../config';
+import { Request } from 'express';
+import { APIError } from '../utils/error';
 
 export class FileOperation {
     private sftp!: SFTPClient;
     private validMimeTypes = /jpeg|jpg|png|pdf/;
     private FTP_ROOT_FILE_PATH = config.ssh.root_file_path;
+
+    public uploadFileLocal = async (businessName: any, content: Express.Multer.File, filepath?: string | null) => {
+        try {
+            this.uploadFileValidate(content);
+
+            let filePathToSave = '';
+            let dirToSave = '';
+            let err: Error;
+            if (filepath) {
+                filePathToSave = filepath;
+            } else {
+                const fileExt = path.extname(content.originalname).replace(/\./, '') || 'jpeg';
+                //const { dir, newFilePath } = this.generateFilePathAndDir(fileExt);
+                dirToSave = `./uploads/${businessName}`;
+                fs.mkdirSync(dirToSave, { recursive: true });
+                filePathToSave = nanoid(5) + content.originalname;
+            }
+            multer.diskStorage({
+                destination: function (businessName, content, cb) {
+                    return cb(err, dirToSave)
+                },
+                filename: function (businessName, content, cb) {
+                    return cb(err, filePathToSave)
+                }
+            })._handleFile(businessName, content, (err, info) => {
+                console.log(info);
+                if (err) {
+                    throw new APIError(err)
+                }
+            });
+
+            return dirToSave + filePathToSave;
+        } catch (err) {
+            throw new Error('Error uploading file:' + err);
+        } finally {
+            this.sftp.end();
+        }
+    }
 
     /**
      * Uploads file and returns file path only after succesful file upload

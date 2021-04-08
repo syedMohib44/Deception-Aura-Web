@@ -1,7 +1,10 @@
 {
-  "name": "react-redux-hooks-jwt-auth",
+  "name": "deception-aura-client",
   "version": "0.1.0",
   "private": true,
+  "bin": {
+    "uploads": "../uploads"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -9,6 +12,7 @@
     "@types/jwt-decode": "^3.1.0",
     "axios": "^0.20.0",
     "bootstrap": "^4.6.0",
+    "dotenv": "^8.2.0",
     "jwt-decode": "^3.1.2",
     "mongoose": "^5.11.18",
     "react": "^16.13.1",
@@ -21,7 +25,8 @@
     "react-validation": "^3.0.7",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "validator": "^13.1.1"
+    "validator": "^13.1.1",
+    "web-vitals": "^1.1.1"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",

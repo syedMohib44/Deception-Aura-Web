@@ -7,7 +7,7 @@ function FileUpload() {
     
     const handleChange = (e) => {
         setProgess(0)
-        const file = e.target.files[0]; // accesing file
+        const file = e.target.files; // accesing file
         console.log(file);
         setFile(file); // storing file
     }
@@ -30,7 +30,7 @@ function FileUpload() {
     return (
         <div>
             <div className="file-upload">
-                <input type="file" ref={el} onChange={handleChange} />
+                <input type="file" multiple ref={el} onChange={handleChange} />
                 <div className="progessBar" style={{ width: progress }}>
                     {progress}
                 </div>

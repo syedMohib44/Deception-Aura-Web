@@ -59,6 +59,7 @@ async function preProcessing(addAuthenticationDto: AddAuthenticationDto) {
     }
     user.lastLogin = moment.utc().format();
     await user.save();
+    console.log(user.profilePic + ' -------------------')
     const payload: JWTPAYLOAD = {
         userId: user._id,
         typeOfUser: 'owner',

@@ -16,20 +16,12 @@ const getRatingAvg = (productId) => {
   return axios.get(API_URL + `rating/${productId}`);
 };
 
-const postProduct = (name, price, business) => {
-  return axios.post(API_URL + 'user/product/', {
-    name,
-    price
-
-  }, { headers: authHeader() });
+const postProduct = (formData) => {
+  return axios.post(API_URL + 'user/product/', formData, { headers: authHeader() });
 }
 
-export const postCampaing = (name, product, files) => {
-  return axios.post(API_URL + 'user/campaing/', {
-    name,
-    product,
-    files
-  }, { headers: authHeader() });
+export const postCampaing = (formData) => {
+  return axios.post(API_URL + 'user/campaing/', formData, { headers: authHeader() });
 }
 
 

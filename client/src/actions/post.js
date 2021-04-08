@@ -6,9 +6,9 @@ import {
 
 import UserService from "../services/user.service";
 
-export const postProduct = (name, price, business) => (dispatch) => {
+export const postProduct = (formData) => (dispatch) => {
 
-  return UserService.postProduct(name, price, business).then(
+  return UserService.postProduct(formData).then(
     (response) => {
       console.log(response);
       dispatch({
@@ -46,9 +46,9 @@ export const postProduct = (name, price, business) => (dispatch) => {
 };
 
 
-export const postCampaing = (name, productId, files) => (dispatch) => {
+export const postCampaing = (formData) => (dispatch) => {
 
-  return UserService.postCampaing(name, productId, files).then(
+  return UserService.postCampaing(formData).then(
     (response) => {
       console.log(response);
       dispatch({

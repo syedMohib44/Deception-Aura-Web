@@ -25,6 +25,7 @@ import { history } from "./helpers/history";
 import Campaings from "./components/Campaings";
 import ConsumerHome from "./components/ConsumerHomePage";
 import ConsumerProduct from "./components/ConsumerProductPage";
+require('dotenv').config();
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);

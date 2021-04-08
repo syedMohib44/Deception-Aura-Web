@@ -1,18 +1,12 @@
 {
-  "name": "supergizedsalonrestapi",
+  "name": "deception-aura",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": ">= 6.9.4",
-    "npm": ">= 4.4.0"
-  },
   "scripts": {
     "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts",
-    "tsc": "tsc", 
-    "copy": "npm install && cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
-    "build": "rm -rf dist && npm run tsc && npm run copy && cd client && npm install && npm run build",
-    "heroku-postbuild": "npm install",
+    "copy": "cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
+    "build": "rm -rf dist && tsc && npm run copy",
     "seed": "ts-node api/seeds",
     "test:clearCache": "node_modules/.bin/jest --clearCache && rm -rf ./dist",
     "test:all": "node_modules/.bin/jest --watchAll --runInBand --detectOpenHandles",

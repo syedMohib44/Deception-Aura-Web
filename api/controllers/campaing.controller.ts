@@ -9,7 +9,9 @@ import { updateCampaing } from '../services/campaing-service/updateCampaing.serv
 
 export const postCampaing = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
-        await insertCampaing(req.body);
+        console.log(req.files);
+        console.log(req.body);
+        //await insertCampaing({ files: req.files as any }, req.body);
         res.sendStatus(201);
     } catch (err) {
         next(err);
@@ -27,7 +29,7 @@ export const getCampaings = async (req: IUserRequest, res: Response, next: NextF
             page: req.query.page ? +req.query.page : 1,
             limit: req.query.limit ? +req.query.limit : 10,
             sort: req.query.sort,
-            q: req.query.q as string,           
+            q: req.query.q as string,
             search: req.query,
             productId: req.query.productId as string
         }
@@ -50,7 +52,7 @@ export const getCamapingById = async (req: Request, res: Response, next: NextFun
 
 export const putCamaping = async (req: IUserRequest, res: Response, next: NextFunction) => {
     try {
-        const  updateCampaingDto: UpdateCampaingDto = {...req.body, businessName: req.user.business.name};
+        const updateCampaingDto: UpdateCampaingDto = { ...req.body, businessName: req.user.business.name };
         await updateCampaing(updateCampaingDto);
         res.status(200).json({ status: 'success', data: 'Camapaing updated successfylly' });
     } catch (err) {

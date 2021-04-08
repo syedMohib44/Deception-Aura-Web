@@ -2,11 +2,13 @@ import { Router } from 'express';
 import { getCampaings, postCampaing, putCamaping } from '../../controllers/campaing.controller';
 import { userRequestHandler } from '../../middlewares/userRequestHandler';
 import multer from 'multer';
+import { storage } from '../../utils/commonHelper';
 
 const router = Router();
 
 router.get('/', userRequestHandler(getCampaings));
 router.post('/', multer({
+    storage: storage,
     limits: {
         fileSize: 1000 * 1 * 3000
     }

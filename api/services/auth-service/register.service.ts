@@ -31,8 +31,8 @@ export const insertUserAsOwner = async (addOwnerDto: AddOwnerDto) => {
     user.lastName = addOwnerDto.lastName;
     user.username = addOwnerDto.username;
     if (addOwnerDto.profilePic) {
-        const fileOP = new FileOperation();
-        user.profilePic = await fileOP.uploadFile(addOwnerDto.profilePic);
+        //const fileOP = new FileOperation();
+        user.profilePic = addOwnerDto.businessName + '/' + addOwnerDto.profilePic.originalname;
     }
 
     user.password = hashedPassword;

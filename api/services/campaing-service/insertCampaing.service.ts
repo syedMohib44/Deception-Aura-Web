@@ -9,9 +9,17 @@ import { generateSingleQrCode } from '../../libs/qrCodeGenerator';
 import { APIError } from '../../utils/error';
 import { sendMail } from '../../libs/mail/mail';
 
-export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
 
-    if (!campaingExists(addCampaingDto))
+export interface IDocFiles {
+    files: {
+        [field: string]: Express.Multer.File[];
+    };
+}
+
+export const insertCampaing = async (docFiles: IDocFiles, addCampaingDto: AddCampaingDto) => {
+    const validFiles = /jpeg|jpg|png|pdf|doc|docx|txt|ppt|pptx|.obj|.fbx/;
+
+    if (await campaingExists(addCampaingDto))
         throw new APIError(400, { message: 'Camaping already exists' });
 
     const allowedTypes = [
@@ -23,8 +31,12 @@ export const insertCampaing = async (addCampaingDto: AddCampaingDto) => {
 
     for (const type of allowedTypes) {
         if (!addCampaingDto.files[type]) {
-            //throw new APIError(404, { message: `Please add ${type} file` });
-            continue;
+            throw new APIError(404, { message: `Please add ${type} file` });
+        }
+        for (const file of docFiles.files[type]) {
+            if (!validFiles.test(file.mimetype)) {
+                throw new APIError(400, { message: 'Invalid file type, only JPG/PNG/DOC/DOCX/PDF/TXT files are allowed' });
+            }
         }
     }
 

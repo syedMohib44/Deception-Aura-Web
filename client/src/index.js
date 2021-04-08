@@ -5,6 +5,7 @@ import store from "./store"; //This is using middleware reducers from store.js f
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+require('dotenv').config();
 
 ReactDOM.render(
   <Provider store={store}>

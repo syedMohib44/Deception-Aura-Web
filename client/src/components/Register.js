@@ -88,7 +88,6 @@ const Register = () => {
   const onChangeProfilePic = (e) => {
     const file = e.target.files[0];
     setProfilePic(file);
-    console.log(profilePic);
   }
 
   const onChangeBusinessName = (e) => {
@@ -121,9 +120,6 @@ const Register = () => {
       formData.append("businessName", businessName);
       formData.append("profilePic", profilePic);
 
-      for (var [key, value] of formData.entries()) { 
-      console.log(key, value);
-     }
       dispatch(register(formData))
         .then(() => {
           setSuccessful(true);

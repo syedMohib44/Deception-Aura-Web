@@ -32,11 +32,11 @@ export const generateQrCodes = async (products: any[]) => {
         const qrCode = new QRCode(options);
 
         qrCode.saveImage({
-            path: 'public/qrCode-images/' + productItem.name
+            path: 'client/src/public/qrCode-images/' + productItem.name
         });
         const qrCodeAttachment = {
             filename: productItem.name + options.format,
-            path: 'public/qrCode-images/' + productItem.name,
+            path: 'client/src/public/qrCode-images/' + productItem.name,
             cid: productItem.name + '@inzilo.com' // same cid value as in the html img src
         };
         attachments.push(qrCodeAttachment);

@@ -23,6 +23,7 @@ const Product = (props) => {
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    const [productPic, setproductPic] = useState(null);
     const [successful, setSuccessful] = useState(false);
 
     const { message } = useSelector(state => state.message);
@@ -32,6 +33,11 @@ const Product = (props) => {
         const name = e.target.value;
         setName(name);
     };
+
+    const onChangeProductPic = (e) => {
+        const file = e.target.files[0];
+        setproductPic(file);
+      }
 
     const onChangePrice = (e) => {
         const price = e.target.value;
@@ -56,9 +62,14 @@ const Product = (props) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(postProduct(name, price, JWTDATA().business._id))
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("price", price);
+            formData.append("businessName", props.businessName);
+            formData.append("productPic", productPic);
+
+            dispatch(postProduct(formData))
                 .then(() => {
-                    console.log(name, price, JWTDATA().business._id);
                     setSuccessful(true);
                 })
                 .catch(() => {
@@ -111,6 +122,17 @@ const Product = (props) => {
                                             value={price}
                                             onChange={onChangePrice}
                                             validations={[required]}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <Input
+                                            type="file"
+                                            multiple="false"
+                                            //className="form-control"
+                                            name="productPic"
+                                            //value={businessName}
+                                            onChange={onChangeProductPic}
+                                        //validations={[required, vusername]}
                                         />
                                     </div>
 

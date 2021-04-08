@@ -41,7 +41,7 @@ export class App {
         //         }
         //         next();
         //    });
-        this.app.use(express.static(path.join(__dirname, '../../public', '../../public/client/build')));
+        this.app.use(express.static(path.join(__dirname, '../../public')));
         this.app.use(bodyParser.json({ limit: '5mb' }));
         this.app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
         this.app.use(compression());

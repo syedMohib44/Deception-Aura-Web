@@ -12,7 +12,11 @@ const Campaing = (props) => {
     const checkBtn = useRef();
 
     const [name, setName] = useState("");
-    const [price, setPrice] = useState("");
+    const [modelFiles, setModelFiles] = useState([]);
+    const [textureFiles, setTextureFiles] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
+    const [miscFiles, setMiscFiles] = useState([]);
+
     const [successful, setSuccessful] = useState(false);
 
     const { message } = useSelector(state => state.message);
@@ -23,10 +27,22 @@ const Campaing = (props) => {
         setName(name);
     };
 
-    const onChangePrice = (e) => {
-        const price = e.target.value;
-        setPrice(price);
-    };
+    const onChangeModelFiles = (e) => {
+        const file = e.target.files;
+        setModelFiles(file);
+    }
+    const onChangeTextureFiles = (e) => {
+        const file = e.target.files;
+        setTextureFiles(file);
+    }
+    const onChangeImageFiles = (e) => {
+        const file = e.target.files;
+        setImageFiles(file);
+    }
+    const onChangeMiscFiles = (e) => {
+        const file = e.target.files;
+        setMiscFiles(file);
+    }
 
     const required = (value) => {
         if (!value) {
@@ -46,7 +62,15 @@ const Campaing = (props) => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(postCampaing(name, productId, []))
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("productId", productId);
+            formData.append("models", modelFiles)
+            formData.append("textures", textureFiles)
+            formData.append("images", imageFiles)
+            formData.append("misc", miscFiles)
+
+            dispatch(postCampaing(formData))
                 .then(() => {
                     setSuccessful(true);
                 })
@@ -90,22 +114,39 @@ const Campaing = (props) => {
                                             validations={[required]}
                                         />
                                     </div>
-                                    {
-                                        [...Array(5)].map((start, i) => {
-                                            return (
-                                                <div className="form-group">
-                                                    <Input
-                                                        type="file"
-                                                    //className="form-control"
-                                                    //name="businessName"
-                                                    //value={businessName}
-                                                    //onChange={onChangeBusinessName}
-                                                    //validations={[required, vusername]}
-                                                    />
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                    <div className="form-group">
+                                        <Input
+                                            type="file"
+                                            multiple
+                                            name="modelFiles"
+                                            onChange={onChangeModelFiles}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <Input
+                                            type="file"
+                                            multiple
+                                            name="textureFiles"                                            
+                                            onChange={onChangeTextureFiles}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <Input
+                                            type="file"
+                                            multiple
+                                            name="imageFiles"
+                                            onChange={onChangeImageFiles}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <Input
+                                            type="file"
+                                            multiple
+                                            name="miscFiles"
+                                            onChange={onChangeMiscFiles}
+                                        />
+                                    </div>
+
                                     <div className="form-group">
                                         <button className="btn btn-primary btn-block">Add Campaing</button>
                                     </div>

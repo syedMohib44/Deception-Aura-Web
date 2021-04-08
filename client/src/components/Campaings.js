@@ -13,7 +13,7 @@ const Campaings = ({ match }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const { id } = match.params;
-  
+
   const nextPage = () => {
     setPage(page + 1)
   }
@@ -68,7 +68,6 @@ const Campaings = ({ match }) => {
   useEffect(() => {
     getCampaings(limit, page, id);
   }, [limit, page, id]);
-
   return (
     <div className="container">
       <header className="jumbotron">
@@ -92,7 +91,7 @@ const Campaings = ({ match }) => {
                 <td>{i + 1}</td>
                 <td>{campaing.name}</td>
                 <td>
-                  <img src={require('./'+campaing.qrCode)} alt=''/>
+                  <img src={require(`../${campaing.qrCode}`)} alt='' />
                 </td>
                 <td>
                   {campaing.isActive ?
