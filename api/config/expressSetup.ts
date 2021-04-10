@@ -19,11 +19,9 @@ export const IS_DEV_MODE = config.mode === 'dev';
 
 export class App {
     public app: express.Application;
-    public appClient: express.Application;
 
     constructor() {
         this.app = express();
-        this.appClient = express();
         this.config();
         this.routes();
         if (!IS_DEV_MODE) {
