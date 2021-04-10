@@ -32,6 +32,8 @@ const Home = () => {
   useEffect(() => {
     UserService.getProducts(limit, page, userData.business._id).then(
       (response) => {
+        console.log(response.data.result.docs);
+        console.log(userData.business._id);
         setProducts(response.data.result.docs);
       },
       (error) => {

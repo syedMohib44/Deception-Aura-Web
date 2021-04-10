@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts",
+    "start": "nodemon -e js,json,ts --exec ts-node-dev app.ts && npm run startClient",
+    "startClient": "cd client && npm run start",
+    "client": "cd client && npm run start",
     "copy": "cp .env dist/ && cp -r public dist/ && cp -r private dist/ && cp ecosystem.config.js dist/",
     "build": "rm -rf dist && tsc && npm run copy",
     "seed": "ts-node api/seeds",

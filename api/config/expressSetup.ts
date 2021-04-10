@@ -19,16 +19,24 @@ export const IS_DEV_MODE = config.mode === 'dev';
 
 export class App {
     public app: express.Application;
+    public appClient: express.Application;
 
     constructor() {
         this.app = express();
+        this.appClient = express();
         this.config();
         this.routes();
+        if (!IS_DEV_MODE) {
+            this.app.use(express.static(path.join(__dirname, '../../client/build')));
+            this.app.use('*', (req, res, next) => {
+                res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+            });
+        }
         this.errorHandler();
     }
 
     private config(): void {
-        this.app.set('port',  PORT || 3000);
+        this.app.set('port', PORT || 3000);
         this.app.use(morgan('combined'));
         this.app.use(cors());
         // Alternate of using cors
@@ -41,6 +49,7 @@ export class App {
         //         }
         //         next();
         //    });
+
         this.app.use(express.static(path.join(__dirname, '../../public')));
         this.app.use(bodyParser.json({ limit: '5mb' }));
         this.app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
